@@ -1,15 +1,19 @@
 flags = -std=c++11 -Wall
 compiler = clang++
+files = build/dictionary.o build/shift.o
 
 all: main
 
 remake: clean main
 
-main: dictionary.o
-	$(compiler) $(flags) build/$^ main.cpp -o crypto
+main: $(files)
+	$(compiler) $(flags) $^ main.cpp -o crypto
 
-dictionary.o: resources/dictionary.cpp 
-	$(compiler) $(flags) -c $^ -o build/$@
+build/dictionary.o: resources/dictionary.cpp 
+	$(compiler) $(flags) -c $^ -o $@
+
+build/shift.o: ciphers/shift.cpp 
+	$(compiler) $(flags) -c $^ -o $@
 
 clean:
 	rm -f *.out build/*.o
