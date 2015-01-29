@@ -6,20 +6,13 @@
 
 namespace crypto {
 
-    const char Shift_cipher::cap_letters[] = {'A','B','C','D','E','F','G',
-                                              'H','I','J','K','L','M','N',
-                                              'O','P','Q','R','S','T','U',
-                                              'V','W','X','Y','Z',' '};
-
     const char Shift_cipher::letters[] = {'a','b','c','d','e','f','g','h',
                                           'i','j','k','l','m','n','o','p',
                                           'q','r','s','t','u','v','w','x',
                                           'y','z',' '};
 
-    Shift_cipher::Shift_cipher(const int& shift) : shift(shift) {};
-
-    std::string Shift_cipher::encrypt(const std::string& input) {
-        uint size_of_alphabet = sizeof(cap_letters);
+    std::string Shift_cipher::encrypt(const std::string& input, const uint& shift) {
+        uint size_of_alphabet = sizeof(letters);
         std::stringstream ss;
         for(const char& c : input){
             int index;
@@ -28,13 +21,13 @@ namespace crypto {
             else
                 index = (static_cast<int>(c)-static_cast<int>('a')+shift);
             index = (index % size_of_alphabet);
-            ss << cap_letters[index];
+            ss << letters[index];
         }
 
         return ss.str();
     }
 
-    std::string Shift_cipher::decrypt(const std::string& input) {
+    std::string Shift_cipher::decrypt(const std::string& input, const uint& shift) {
         uint size_of_alphabet = sizeof(letters);
         std::stringstream ss;
         for(const char& c : input){
@@ -42,12 +35,36 @@ namespace crypto {
             if(c == ' ')
                 index = size_of_alphabet-shift-1;
             else
-                index = (static_cast<int>(c)-static_cast<int>('A')-shift);
-            // avoid being negative
+                index = (static_cast<int>(c)-static_cast<int>('a')-shift);
+            // avoids being negative
             index = (size_of_alphabet+ index) % size_of_alphabet;
             ss << letters[index];
         }
 
+        return ss.str();
+    }
+
+    std::string Shift_cipher::crack(const std::string& input, const Dictionary& d) {
+        //std::cerr << "Trying shift cipher, bruteforce:" << std::endl;
+
+        // Testing if input is already plain text
+        if(d.is_english(input))
+            return "Input was already in plaintext:\n"+input; 
+
+        uint size_of_alphabet = sizeof(letters);
+        std::string candidate;
+        std::stringstream ss;
+        for(uint i = 1; i < size_of_alphabet; ++i) {
+            //std::cerr << "Trying key: " << i << std::endl;
+            candidate = decrypt(input, i);
+            if(d.is_english(candidate)){
+                ss << "Cipher found: shift cipher, using key: " << i;
+                ss << ", cipher in plaintext:\n" << candidate << std::endl;
+                break;
+            }
+        }
+        if(ss.peek() == EOF)
+            return "Not Found";
         return ss.str();
     }
 }

@@ -1,20 +1,21 @@
-#ifndef CYPHER_SHIFT_H
-#define CYPHER_SHIFT_H
+#ifndef CIPHER_SHIFT_H
+#define CIPHER_SHIFT_H
 
 #include <string>
 #include <sstream>
+#include "../resources/dictionary.h"
 
 namespace crypto {
+
     class Shift_cipher {
-        static const char cap_letters[], letters[];
-        const int shift;
+        static const char letters[];
 
     public:
-        Shift_cipher(const int&);
-        std::string encrypt(const std::string&);
-        std::string decrypt(const std::string&);
+        std::string encrypt(const std::string&, const uint&);
+        std::string decrypt(const std::string&, const uint&);
+        std::string crack(const std::string&, const Dictionary&);
 
     };
 }
 
-#endif //CYPHER_SHIFT_H
+#endif //CIPHER_SHIFT_H

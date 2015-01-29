@@ -1,6 +1,6 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = build/dictionary.o build/shift.o
+files = build/dictionary.o build/shift.o build/substitution.o
 
 all: main
 
@@ -13,6 +13,9 @@ build/dictionary.o: resources/dictionary.cpp
 	$(compiler) $(flags) -c $^ -o $@
 
 build/shift.o: ciphers/shift.cpp 
+	$(compiler) $(flags) -c $^ -o $@
+
+build/substitution.o: ciphers/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
 clean:
