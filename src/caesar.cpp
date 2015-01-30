@@ -35,19 +35,15 @@ int main(int argc, char* argv[]) {
             }
         default: 
             {
-                std::cerr << "usage: shift_cipher <mode> [<shifts>]\n";
+                std::cerr << "usage: caesar_cipher <mode>\n";
                 std::cerr << "\nPossible modes:\n";
                 std::cerr << "   -e -encrypt     encrypts input from stdin\n";
                 std::cerr << "   -d -decrypt     decrypts input from stdin\n\n";
-                std::cerr << "shifts is the number of shifts used for encryption/decryption.\n";
-                std::cerr << "If left empty it will be randomized and key will be written to\n";
-                std::cerr << "stderr. Note that this applies for decryption as well!\n\n";
                 std::cerr << "Typical usage:\n";
-                std::cerr << "   shift_cipher -e 12 < plain > cipher\n";
-                std::cerr << "   shift_cipher -d 12 < cipher > decrypted\n";
-                std::cerr << "   shift_cipher -e < plain > cipher 2> key\n";
-                std::cerr << "where plain is a file containg plaintext and cipher/key/decrypted\n";
-                std::cerr << "will be written to respective file\n" << std::endl;
+                std::cerr << "   caesar_cipher -e < plain > cipher\n";
+                std::cerr << "   caesar_cipher -d < cipher > decrypted\n";
+                std::cerr << "where plain is a file containg plaintext and cipher\n";
+                std::cerr << "will be written to/read from the file cipher\n" << std::endl;
             }
     }
 
