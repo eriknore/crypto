@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# Crypto files
+decrypted
+cipher
+plain
+key
