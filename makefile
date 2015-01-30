@@ -1,6 +1,6 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = shift_cipher subst_cipher
+files = shift_cipher subst_cipher caesar_cipher
 b = build
 
 all: $(files) cryptanalysis
@@ -11,6 +11,9 @@ shift_cipher: $(b)/dictionary.o $(b)/shift.o src/shift_cipher.cpp
 	$(compiler) $(flags) $^ -o $@
 
 subst_cipher: $(b)/substitution.o src/subst_cipher.cpp
+	$(compiler) $(flags) $^ -o $@
+
+caesar_cipher: $(b)/dictionary.o $(b)/shift.o src/caesar.cpp
 	$(compiler) $(flags) $^ -o $@
 
 $(b)/dictionary.o: tools/dictionary/dictionary.cpp 
