@@ -31,6 +31,7 @@
 shift_cipher
 cesar_cipher
 subst_cipher
+affine_cipher
 cyrptanalysis/crack_subst/ngrams
 cyrptanalysis/crack_subst/ic_calc
 

@@ -28,12 +28,14 @@ int main(int argc, char* argv[]) {
                 if(arg1 == "-e" || arg1 == "-encrypt") {
                     processed = sc.encrypt(input, shift);
                     std::cerr << shift << std::endl;
-                } else if(arg1 == "-d" || arg1 == "-decrypt")
-                    processed = sc.decrypt(input, shift);
-                else // unknown command
+                    ok = true;
                     break;
-                ok = true;
-                break;
+                } else if(arg1 == "-d" || arg1 == "-decrypt") {
+                    processed = sc.decrypt(input, shift);
+                    ok = true;
+                    break;
+                } 
+                // unknown command -> fall through
             }
         case 3: 
             {   
