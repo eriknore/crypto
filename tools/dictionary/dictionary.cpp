@@ -5,7 +5,7 @@
 namespace crypto {
     Dictionary::Dictionary() {
         //swedish = init_from_file("resources/wordlists/svenska.txt");
-        english = init_from_file("resources/wordlists/english.txt");
+        english = init_from_file("tools/dictionary/wordlists/english.txt");
         
         //dictionaries.push_back(swedish);
         //dictionaries.push_back(english);
@@ -44,8 +44,9 @@ namespace crypto {
                 ++nr_of_words_found;
         }
         
-        // is english iff more than half of the words were recognized
-        if((float(nr_of_words_found) / size) > 0.5) 
+        // is english iff more than 30% of the words were recognized
+        // might need trimmin?
+        if((float(nr_of_words_found) / size) > 0.3) 
             return true;
         else
             return false;

@@ -14,14 +14,17 @@ namespace crypto {
     std::string Shift_cipher::encrypt(const std::string& input, const uint& shift) {
         uint size_of_alphabet = sizeof(letters);
         std::stringstream ss;
-        for(const char& c : input){
-            int index;
+        for(const char &c : input){
+            int letter_nr;
             if(c == ' ')
-                index = size_of_alphabet+shift-1;
-            else
-                index = (static_cast<int>(c)-static_cast<int>('a')+shift);
-            index = (index % size_of_alphabet);
-            ss << letters[index];
+                letter_nr = size_of_alphabet-1;
+            else {
+                letter_nr = static_cast<int>(c - 'a');
+            }
+            if(letter_nr < 0 || letter_nr > 26) // ie. not a-z or space
+                continue;
+            letter_nr = (letter_nr + shift) % size_of_alphabet;
+            ss << letters[letter_nr];
         }
 
         return ss.str();
@@ -31,22 +34,23 @@ namespace crypto {
         uint size_of_alphabet = sizeof(letters);
         std::stringstream ss;
         for(const char& c : input){
-            int index;
+            int letter_nr;
             if(c == ' ')
-                index = size_of_alphabet-shift-1;
-            else
-                index = (static_cast<int>(c)-static_cast<int>('a')-shift);
+                letter_nr = size_of_alphabet-1;
+            else {
+                letter_nr = static_cast<int>(c - 'a');
+            }
+            if(letter_nr < 0 || letter_nr > 26) // ie. not a-z or space
+                continue;
             // avoids being negative
-            index = (size_of_alphabet+ index) % size_of_alphabet;
-            ss << letters[index];
+            letter_nr = (size_of_alphabet + letter_nr - shift) % size_of_alphabet;
+            ss << letters[letter_nr];
         }
 
         return ss.str();
     }
 
     std::string Shift_cipher::crack(const std::string& input, const Dictionary& d) {
-        //std::cerr << "Trying shift cipher, bruteforce:" << std::endl;
-
         // Testing if input is already plain text
         if(d.is_english(input))
             return "Input was already in plaintext:\n"+input; 
@@ -54,12 +58,12 @@ namespace crypto {
         uint size_of_alphabet = sizeof(letters);
         std::string candidate;
         std::stringstream ss;
+        // Try all shifts starting from 1
         for(uint i = 1; i < size_of_alphabet; ++i) {
-            //std::cerr << "Trying key: " << i << std::endl;
             candidate = decrypt(input, i);
             if(d.is_english(candidate)){
-                ss << "Cipher found: shift cipher, using key: " << i;
-                ss << ", cipher in plaintext:\n" << candidate << std::endl;
+                ss << "Cipher used: shift cipher, using key: " << i;
+                ss << "\nCipher in plaintext:\n\n" << candidate << std::endl;
                 break;
             }
         }

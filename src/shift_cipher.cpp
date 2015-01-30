@@ -2,7 +2,6 @@
 #include "../ciphers/shift.h"
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <chrono>
 
 using namespace crypto;
