@@ -27,7 +27,15 @@
 *.out
 *.app
 
-# Crypto files
+# Crypto binaries
+ngrams
+shift_cipher
+cesar_cipher
+subst_cipher
+crack_subst
+crack_shift
+
+# Crypto output files
 decrypted
 cipher
 plain

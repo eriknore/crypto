@@ -1,13 +1,14 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = build/dictionary.o build/shift.o build/substitution.o
+files = shift_cipher
+#build/dictionary.o build/shift.o build/substitution.o
 
-all: main
+all: $(files)
 
-remake: clean main
+remake: clean $(files)
 
-main: $(files)
-	$(compiler) $(flags) $^ main.cpp -o crypto
+shift_cipher: build/dictionary.o build/shift.o
+	$(compiler) $(flags) $^ src/$@.cpp -o $@
 
 build/dictionary.o: resources/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@
@@ -18,11 +19,12 @@ build/shift.o: ciphers/shift.cpp
 build/substitution.o: ciphers/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
+tools/ngrams:
+	cd tools/ngrams && make
+	mv tools/ngrams/ngrams .
+
 clean:
 	rm -f *.out build/*.o
-
-run: main
-	./crypto
 
 valgrind: 
 	valgrind --tool=memcheck --leak-check=yes -v ./crypto
