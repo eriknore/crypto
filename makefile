@@ -1,21 +1,25 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = shift_cipher tools/ngrams
+files = shift_cipher subst_cipher
+b = build
 
 all: $(files) cryptanalysis
 
 remake: clean $(files)
 
-shift_cipher: build/dictionary.o build/shift.o src/shift_cipher.cpp
+shift_cipher: $(b)/dictionary.o $(b)/shift.o src/shift_cipher.cpp
 	$(compiler) $(flags) $^ -o $@
 
-build/dictionary.o: tools/dictionary/dictionary.cpp 
+subst_cipher: $(b)/substitution.o src/subst_cipher.cpp
+	$(compiler) $(flags) $^ -o $@
+
+$(b)/dictionary.o: tools/dictionary/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
-build/shift.o: ciphers/shift.cpp 
+$(b)/shift.o: ciphers/shift.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
-build/substitution.o: ciphers/substitution.cpp 
+$(b)/substitution.o: ciphers/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
 cryptanalysis: FORCE

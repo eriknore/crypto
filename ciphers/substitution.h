@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "../resources/dictionary.h"
 #include <chrono>
+#include <sstream>
 
 namespace crypto {
 
@@ -17,7 +17,6 @@ namespace crypto {
         Subst_cipher(const std::vector<int>&);
         std::string encrypt(const std::string&);
         std::string decrypt(const std::string&);
-        std::string crack(const std::string&, const Dictionary&);
         std::string get_permutation() const;
         bool set_permutation(std::string);
         int get_size_of_alphabet() const;

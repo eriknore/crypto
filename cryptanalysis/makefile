@@ -19,7 +19,7 @@ $(b)/shift.o: ../ciphers/shift.cpp
 
 tools/ngrams: FORCE
 	cd ../tools/ngrams && make
-	mv ../tools/ngrams/ngrams $(c_sub)/ngrams
+	cp ../tools/ngrams/ngrams $(c_sub)/ngrams
 
 FORCE:
 

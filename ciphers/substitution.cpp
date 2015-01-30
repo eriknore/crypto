@@ -34,15 +34,18 @@ namespace crypto {
         uint size_of_alphabet = get_size_of_alphabet();
         std::stringstream ss;
         for(const char& c : input){
-            int index;
+            int letter_nr;
             if(c == ' ')
-                index = size_of_alphabet-1;
-            else
-                index = static_cast<int>(c)-static_cast<int>('a');
-            index = (index % size_of_alphabet);
+                letter_nr = size_of_alphabet-1;
+            else {
+                letter_nr = static_cast<int>(c - 'a');
+            }
+            if(letter_nr < 0 || letter_nr > 26) // ie. not a-z or space
+                continue;
+            letter_nr = (letter_nr % size_of_alphabet);
             // example: a->D == 0->3
             // so for a: permutation[0] == 3 and letters[3] == d
-            ss << letters[permutation[index]];
+            ss << letters[permutation[letter_nr]];
         }
 
         return ss.str();
@@ -52,28 +55,26 @@ namespace crypto {
         uint size_of_alphabet = get_size_of_alphabet();
         std::stringstream ss;
         for(const char& c : input){
-            int index;
+            int letter_nr;
             if(c == ' ')
-                index = size_of_alphabet-1;
-            else
-                index = static_cast<int>(c)-static_cast<int>('a');
-            index = (index % size_of_alphabet);
-            // find which i where permutation[i] == index
+                letter_nr = size_of_alphabet-1;
+            else {
+                letter_nr = static_cast<int>(c - 'a');
+            }
+            if(letter_nr < 0 || letter_nr > 26) // ie. not a-z or space
+                continue;
+            letter_nr = (letter_nr % size_of_alphabet);
+            // find which i where permutation[i] == letter_nr
             for(uint i = 0; i < permutation.size(); ++i) {
-                if(permutation[i] == index) {
-                    index = i;
+                if(permutation[i] == letter_nr) {
+                    letter_nr = i;
                     break;
                 }
             }
-            ss << letters[index];
+            ss << letters[letter_nr];
         }
 
         return ss.str();
-    }
-
-    std::string Subst_cipher::crack(const std::string &input, const Dictionary &d) {
-        // Must use a statistical cryptanalysis, separate class?
-        return "";
     }
 
     std::string Subst_cipher::get_permutation() const {
