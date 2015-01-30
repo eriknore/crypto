@@ -7,10 +7,10 @@ all: $(files)
 
 remake: clean $(files)
 
-shift_cipher: build/dictionary.o build/shift.o
-	$(compiler) $(flags) $^ src/$@.cpp -o $@
+shift_cipher: build/dictionary.o build/shift.o src/shift_cipher.cpp
+	$(compiler) $(flags) $^ -o $@
 
-build/dictionary.o: resources/dictionary.cpp 
+build/dictionary.o: tools/dictionary/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
 build/shift.o: ciphers/shift.cpp 
@@ -19,12 +19,15 @@ build/shift.o: ciphers/shift.cpp
 build/substitution.o: ciphers/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
-tools/ngrams:
+tools/ngrams: FORCE
 	cd tools/ngrams && make
-	mv tools/ngrams/ngrams .
+	mv tools/ngrams/ngrams cryptanalysis/subst/ngrams
+
+FORCE:
 
 clean:
-	rm -f *.out build/*.o
+	rm -f shift_cipher subst_cipher cryptanalysis/subst/ngrams cryptanalysis/subst/ic_calc cryptanalysis/subst/subst_cipher
+	rm -f build/*.o
 
 valgrind: 
 	valgrind --tool=memcheck --leak-check=yes -v ./crypto

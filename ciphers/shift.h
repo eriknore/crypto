@@ -3,7 +3,7 @@
 
 #include <string>
 #include <sstream>
-#include "../resources/dictionary.h"
+#include "../tools/dictionary/dictionary.h"
 
 namespace crypto {
 
