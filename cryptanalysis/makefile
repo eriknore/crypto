@@ -1,6 +1,6 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = crack_shift tools/ngrams
+files = crack_shift tools/ngrams ic_calc
 c_sub = crack_subst
 b = ../build
 
@@ -10,6 +10,9 @@ remake: clean $(files)
 
 crack_shift: $(b)/dictionary.o $(b)/shift.o ../src/shift_cipher_crack.cpp
 	$(compiler) $(flags) $^ -o $@
+
+ic_calc: ../tools/IC_calc/ic_calc.cpp
+	$(compiler) $(flags) $^ -o $(c_sub)/$@
 
 $(b)/dictionary.o: ../tools/dictionary/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@

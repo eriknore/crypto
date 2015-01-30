@@ -32,7 +32,7 @@ shift_cipher
 cesar_cipher
 subst_cipher
 cyrptanalysis/crack_subst/ngrams
-cryptanalysis/crack_shift
+cyrptanalysis/crack_subst/ic_calc
 
 # Crypto output files
 decrypted
