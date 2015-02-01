@@ -1,4 +1,4 @@
-#include "../ciphers/substitution.h"
+#include "subst/substitution.h"
 #include <iostream>
 #include <string>
 #include <chrono>

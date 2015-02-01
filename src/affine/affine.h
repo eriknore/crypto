@@ -1,16 +1,17 @@
 #ifndef CIPHER_AFFINE_H
 #define CIPHER_AFFINE_H
 
-#include "substitution.h"
+#include "../subst/substitution.h"
 #include <string>
 #include <unordered_set>
 #include <algorithm>
 
 namespace crypto {
 
-    class Affine : public Subst_cipher {
+    class Affine_cipher : public Subst_cipher {
         static const std::unordered_set<int> accepted_a;
         bool a_is_accepted(const int&);
+    protected:
         void set_permutation(const int&, const int&);
 
     public:

@@ -1,5 +1,4 @@
-#include "../tools/dictionary/dictionary.h"
-#include "../ciphers/shift.h"
+#include "shift/shift.h"
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -22,7 +21,7 @@ int main(int argc, char* argv[]) {
             {   
                 arg1 = std::string(argv[1]);
                 std::srand(std::time(0)); //use current time as seed for random generator
-                int shift = std::rand() % 26; // alphabet is a-z plus space, zero-indexed
+                int shift = 1 + std::rand() % 25; // alphabet is a-z plus space, zero-indexed
                 Shift_cipher sc;
                 std::string input = get_input();
                 if(arg1 == "-e" || arg1 == "-encrypt") {
@@ -43,14 +42,16 @@ int main(int argc, char* argv[]) {
                 int shift = atoi(argv[2]);
                 Shift_cipher sc;
                 std::string input = get_input();
-                if(arg1 == "-e" || arg1 == "-encrypt")
+                if(arg1 == "-e" || arg1 == "-encrypt") {
                     processed = sc.encrypt(input, shift);
-                else if(arg1 == "-d" || arg1 == "-decrypt")
-                    processed = sc.decrypt(input, shift);
-                else // unknown command
+                    ok = true;
                     break;
-                ok = true;
-                break;
+                } else if(arg1 == "-d" || arg1 == "-decrypt") {
+                    processed = sc.decrypt(input, shift);
+                    ok = true;
+                    break;
+                }
+                // unknown command -> fall through
             }
         default: 
             {

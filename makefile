@@ -1,35 +1,12 @@
 flags = -std=c++11 -Wall
-compiler = g++
-files = shift_cipher subst_cipher caesar_cipher affine_cipher
-b = build
+compiler = clang++
 
-all: $(files) cryptanalysis
+all: ciphers
 
-remake: clean $(files)
+remake: clean
 
-shift_cipher: $(b)/dictionary.o $(b)/shift.o src/shift_cipher.cpp
-	$(compiler) $(flags) $^ -o $@
-
-caesar_cipher: $(b)/dictionary.o $(b)/shift.o src/caesar.cpp
-	$(compiler) $(flags) $^ -o $@
-
-subst_cipher: $(b)/substitution.o src/subst_cipher.cpp
-	$(compiler) $(flags) $^ -o $@
-
-affine_cipher: $(b)/substitution.o $(b)/affine.o src/affine.cpp
-	$(compiler) $(flags) $^ -o $@
-
-$(b)/dictionary.o: tools/dictionary/dictionary.cpp 
-	$(compiler) $(flags) -c $^ -o $@
-
-$(b)/shift.o: ciphers/shift.cpp 
-	$(compiler) $(flags) -c $^ -o $@
-
-$(b)/substitution.o: ciphers/substitution.cpp 
-	$(compiler) $(flags) -c $^ -o $@
-
-$(b)/affine.o: ciphers/affine.cpp 
-	$(compiler) $(flags) -c $^ -o $@
+ciphers:
+	$(MAKE) -C ciphers
 
 cryptanalysis: FORCE
 	cd cryptanalysis && make
@@ -37,12 +14,5 @@ cryptanalysis: FORCE
 FORCE:
 
 clean:
-	rm -f shift_cipher subst_cipher caesar_cipher
-	cd cryptanalysis && make clean
-	rm -f build/*.o
-
-rm_files:
-	rm -f cipher key decrypted
-
-valgrind: 
-	valgrind --tool=memcheck --leak-check=yes -v ./crypto
+	$(MAKE) clean -C ciphers
+	#cd cryptanalysis && make clean

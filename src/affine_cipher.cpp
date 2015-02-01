@@ -1,31 +1,9 @@
-#include "../ciphers/affine.h"
+#include "affine/affine.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 
 using namespace crypto;
-
-//std::unordered_set<int> accepted_a = {1,2,5,7,11,13,17,19,23};
-//
-//bool is_accepted(const int &input) {
-//    return (accepted_a.end() != std::find(accepted_a.begin(), accepted_a.end(), input));
-//}
-//
-//std::string calculate_permutation(const int &a, const int &b) {
-//    if(!is_accepted(a)) {
-//        return "";
-//    }
-//    std::stringstream ss;
-//    ss << "[ ";
-//    for(uint i = 0; i < 27; ++i) {
-//        char c = static_cast<char>(((a*(i) + b) % 27) + 'a');
-//        if(c == '{') // apperantly space becomes '{' :)
-//            c = ' ';
-//        ss << c << " ";
-//    }
-//    ss << "]";
-//    return ss.str();
-//}
 
 std::string get_input() {
     std::string line;
@@ -41,7 +19,7 @@ int main(int argc, char* argv[]) {
                 const std::string& arg1(argv[1]);
                 int a = atoi(argv[2]);
                 int b = atoi(argv[3]);
-                Affine aff_cipher;
+                Affine_cipher aff_cipher;
                 std::string input = get_input();
                 std::string processed;
                 if(arg1 == "-d" || arg1 == "-decrypt")
