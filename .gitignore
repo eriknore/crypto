@@ -29,7 +29,7 @@
 
 # Crypto binaries
 shift_cipher
-cesar_cipher
+caesar_cipher
 subst_cipher
 affine_cipher
 cyrptanalysis/crack_subst/ngrams

@@ -1,6 +1,6 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = crack_shift tools/ngrams ic_calc
+files = crack_shit tools/ngrams ic_calc
 c_sub = crack_subst
 b = ../build
 
