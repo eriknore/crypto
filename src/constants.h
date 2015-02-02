@@ -14,6 +14,7 @@ namespace constants {
     // shift = (a + b) % size_of_alphabet where 'a' must be a primitive
     // root of a. The following is correct for size_of_alphabet == 27
     static const int accepted_a[] = {1,2,5,7,11,13,17,19,23};
+    static const int nr_of_as = sizeof(accepted_a)/sizeof(int);
 
 }
 

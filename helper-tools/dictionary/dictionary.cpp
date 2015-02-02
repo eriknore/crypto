@@ -5,7 +5,7 @@
 namespace crypto {
     Dictionary::Dictionary() {
         //swedish = init_from_file("resources/wordlists/svenska.txt");
-        english = init_from_file("tools/dictionary/wordlists/english.txt");
+        english = init_from_file("../helper-tools/dictionary/wordlists/english.txt");
         
         //dictionaries.push_back(swedish);
         //dictionaries.push_back(english);
@@ -18,6 +18,8 @@ namespace crypto {
         while (std::getline(infile, line))
             set.insert(line);
 
+        if(set.size() == 0)
+            std::cerr << "ERROR: dictionary not read from file!" << std::endl;
         return set;
     }
 
@@ -33,7 +35,8 @@ namespace crypto {
         std::stringstream ss(candidate);
         std::string item;
         while (std::getline(ss, item, ' ')) {
-            words.push_back(item);
+            if(item.length() > 2) // there are too many abbrevations!
+                words.push_back(item);
         }
 
         // count nr of recognized words
@@ -45,7 +48,9 @@ namespace crypto {
         }
         
         // is english iff more than 30% of the words were recognized
-        // might need trimmin?
+        // might need trimming?
+        //std::cout << candidate << std::endl;
+        //std::cout << float(nr_of_words_found) / size << std::endl;
         if((float(nr_of_words_found) / size) > 0.3) 
             return true;
         else

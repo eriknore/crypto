@@ -1,5 +1,6 @@
 #include "../helper-tools/dictionary/dictionary.h"
 #include "../src/affine/affine.h"
+#include "../src/constants.h"
 #include <iostream>
 #include <string>
 
@@ -15,22 +16,26 @@ std::string bruteforce(const std::string& input) {
     std::string candidate;
     std::stringstream ss;
     bool found = false;
-    uint nr_of_accepted_as = sizeof(accepted_a);
-    for(uint i = 0; i < nr_of_accepted_as && !found; ++i) {
+    for(uint i = 0; i < nr_of_as && !found; ++i) {
         for(uint j = 0; j < size_of_alphabet && !found; ++j) {
-            candidate = aff.decrypt(input, i, j);
+            candidate = aff.decrypt(input, accepted_a[i], j);
             if(d.is_english(candidate)){
                 std::string cipher_used;
-                if(i == 0) // special case when a == 1
-                    if(j == 3) // special case when b == 3
-                        cipher_used = "Caesar Cipher";
-                    else
-                        cipher_used = "Shift Cipher";
-                else
+                if(i == 0) { // SHIFT: special case of AFFINE when a == 1
+                    if(j == 3) {// CAESAR: special case of SHIFT when b == 3
+                        ss << "Cipher used: Caesar Cipher";
+                        ss << "\nCipher in plaintext:\n\n" << candidate;
+                    } else {
+                        ss << "Cipher used: Shift Cipher" << ", using K: ";
+                        ss << j << "\nCipher in plaintext:\n\n" << candidate;
+                    }
+                } else {
                     cipher_used = "Affine Cipher";
+                    ss << "Cipher used: Affine Cipher" << ", using key: a = ";
+                    ss << accepted_a[i] << " b = " << j;
+                    ss << "\nCipher in plaintext:\n\n" << candidate;
+                }
 
-                ss << "Cipher used: " << cipher_used << ", using key: ";
-                ss << i << "\nCipher in plaintext:\n\n" << candidate;
                 found = true;
             }
         }
@@ -48,7 +53,7 @@ std::string get_input() {
 }
 
 int main(int argc, char* argv[]) {
-    std::cout << "Input cipher:\n >";
+    std::cout << "Input cipher:\n";
     // cryptanalysis
     std::string input = get_input();
     std::string processed = bruteforce(input);
