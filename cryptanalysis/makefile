@@ -18,7 +18,7 @@ ngrams: FORCE
 	$(MAKE) -C $(tools)/ngrams
 	cp $(tools)/ngrams/ngrams $(c_sub)/ngrams
 
-ic_calc: $(tools)/IC_calc/ic_calc.cpp
+ic_calc: $(bin)/ic_calc.o $(tools)/IC_calc/ic_calc_main.cpp
 	$(compiler) $(flags) $^ -o $(c_sub)/$@
 
 subst_cipher: $(bin)/substitution.o $(src)/subst_cipher.cpp
@@ -33,6 +33,8 @@ $(bin)/substitution.o: $(src)/subst/substitution.cpp
 $(bin)/affine.o: $(src)/affine/affine.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
+$(bin)/ic_calc.o: $(tools)/IC_calc/ic_calc.cpp
+	$(compiler) $(flags) -c $^ -o $@
 FORCE:
 
 clean:

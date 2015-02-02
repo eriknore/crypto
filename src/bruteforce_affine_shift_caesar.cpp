@@ -54,7 +54,6 @@ std::string get_input() {
 
 int main(int argc, char* argv[]) {
     std::cout << "Input cipher:\n";
-    // cryptanalysis
     std::string input = get_input();
     std::string processed = bruteforce(input);
     std::cout << processed << std::endl;
