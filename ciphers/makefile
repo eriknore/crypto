@@ -1,6 +1,6 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = subst_cipher affine_cipher shift_cipher caesar_cipher
+files = subst_cipher affine_cipher shift_cipher caesar_cipher vigenere_cipher
 bin = ../bin
 src = ../src
 
@@ -23,6 +23,9 @@ caesar_cipher: $(bin)/substitution.o $(bin)/affine.o $(bin)/shift.o \
 		$(bin)/caesar.o $(src)/caesar_cipher.cpp
 	$(compiler) $(flags) $^ -o $@
 
+vigenere_cipher: $(bin)/vigenere.o $(src)/vigenere_cipher.cpp
+	$(compiler) $(flags) $^ -o $@
+
 $(bin)/substitution.o: $(src)/subst/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
@@ -33,6 +36,9 @@ $(bin)/shift.o: $(src)/shift/shift.cpp
 	$(compiler) $(flags) -c $^ -o $@
 
 $(bin)/caesar.o: $(src)/caesar/caesar.cpp 
+	$(compiler) $(flags) -c $^ -o $@
+
+$(bin)/vigenere.o: $(src)/vigenere/vigenere.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
 clean:

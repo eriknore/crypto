@@ -1,7 +1,7 @@
 flags = -std=c++11 -Wall
 compiler = clang++
 
-all: ciphers cryptanalysis
+all:
 	$(MAKE) -C ciphers
 	$(MAKE) -C cryptanalysis
 
