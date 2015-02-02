@@ -35,7 +35,7 @@ std::string bruteforce(const std::string& input) {
                     ss << accepted_a[i] << " b = " << j;
                     ss << "\nCipher in plaintext:\n\n" << candidate;
                 }
-
+                ss << std::endl;
                 found = true;
             }
         }
