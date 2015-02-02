@@ -33,7 +33,7 @@ caesar_cipher
 subst_cipher
 affine_cipher
 vigenere_cipher
-cyrptanalysis/bruteforce
+bruteforce
 cyrptanalysis/crack_subst/ngrams
 cyrptanalysis/crack_subst/ic_calc
 
