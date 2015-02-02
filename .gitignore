@@ -36,6 +36,7 @@ vigenere_cipher
 bruteforce
 ngrams
 ic_calc
+crack_viginere
 
 # Crypto output files
 decrypted

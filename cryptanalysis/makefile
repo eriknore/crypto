@@ -1,7 +1,8 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = bruteforce ngrams ic_calc subst_cipher
+files = bruteforce ngrams ic_calc subst_cipher crack_viginere
 c_sub = crack_subst
+c_vig = crack_vigenere
 bin = ../bin
 src = ../src
 tools = ../helper-tools
@@ -24,7 +25,10 @@ ic_calc: $(bin)/ic_calc.o $(tools)/IC_calc/ic_calc_main.cpp
 subst_cipher: $(bin)/substitution.o $(src)/subst_cipher.cpp
 	$(compiler) $(flags) $^ -o $(c_sub)/$@
 
-$(bin)/dictionary.o: ../helper-tools/dictionary/dictionary.cpp 
+crack_viginere: $(bin)/ic_calc.o $(bin)/vigenere.o $(src)/crack_vigenere.cpp
+	$(compiler) $(flags) $^ -o $(c_vig)/$@
+
+$(bin)/dictionary.o: $(tools)/dictionary/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
 $(bin)/substitution.o: $(src)/subst/substitution.cpp 
@@ -35,6 +39,10 @@ $(bin)/affine.o: $(src)/affine/affine.cpp
 
 $(bin)/ic_calc.o: $(tools)/IC_calc/ic_calc.cpp
 	$(compiler) $(flags) -c $^ -o $@
+
+$(bin)/vigenere.o: $(src)/vigenere/vigenere.cpp 
+	$(compiler) $(flags) -c $^ -o $@
+
 FORCE:
 
 clean:
