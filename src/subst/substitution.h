@@ -1,6 +1,7 @@
 #ifndef CIPHER_SUBST_H
 #define CIPHER_SUBST_H
 
+#include "../constants.h"
 #include <string>
 #include <vector>
 #include <chrono>
@@ -9,7 +10,6 @@
 namespace crypto {
 
     class Subst_cipher {
-        static const char letters[];
         std::vector<int> permutation;
 
     public:
@@ -19,7 +19,6 @@ namespace crypto {
         std::string decrypt(const std::string&);
         std::string get_permutation() const;
         bool set_permutation(std::string);
-        int get_size_of_alphabet() const;
 
     };
 }

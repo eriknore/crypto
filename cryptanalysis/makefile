@@ -1,36 +1,40 @@
 flags = -std=c++11 -Wall
 compiler = clang++
-files = crack_shit tools/ngrams ic_calc
+files = bruteforce ngrams ic_calc subst_cipher
 c_sub = crack_subst
-b = ../build
+bin = ../bin
+src = ../src
+tools = ../helper-tools
 
 all: $(files)
 
 remake: clean $(files)
 
-crack_shift: $(b)/dictionary.o $(b)/shift.o ../src/shift_cipher_crack.cpp
+bruteforce: $(bin)/dictionary.o $(bin)/substitution.o $(bin)/affine.o \
+			$(src)/bruteforce_affine_shift_caesar.cpp
 	$(compiler) $(flags) $^ -o $@
 
-ic_calc: ../tools/IC_calc/ic_calc.cpp
+ngrams: FORCE
+	$(MAKE) -C $(tools)/ngrams
+	cp $(tools)/ngrams/ngrams $(c_sub)/ngrams
+
+ic_calc: $(tools)/IC_calc/ic_calc.cpp
 	$(compiler) $(flags) $^ -o $(c_sub)/$@
 
-$(b)/dictionary.o: ../tools/dictionary/dictionary.cpp 
+subst_cipher: $(bin)/substitution.o $(src)/subst_cipher.cpp
+	$(compiler) $(flags) $^ -o $(c_sub)/$@
+
+$(bin)/dictionary.o: ../helper-tools/dictionary/dictionary.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
-$(b)/shift.o: ../ciphers/shift.cpp 
+$(bin)/substitution.o: $(src)/subst/substitution.cpp 
 	$(compiler) $(flags) -c $^ -o $@
 
-tools/ngrams: FORCE
-	cd ../tools/ngrams && make
-	cp ../tools/ngrams/ngrams $(c_sub)/ngrams
+$(bin)/affine.o: $(src)/affine/affine.cpp 
+	$(compiler) $(flags) -c $^ -o $@
 
 FORCE:
 
 clean:
-	rm -f crack_shift $(c_sub)/ngrams $(c_sub)/ic_calc $(c_sub)/subst_cipher
-
-rm_files:
-	rm -f cipher key decrypted
-
-valgrind: 
-	valgrind --tool=memcheck --leak-check=yes -v ./crypto
+	rm -f bruteforce $(c_sub)/ngrams $(c_sub)/ic_calc \
+								$(c_sub)/subst_cipher

@@ -1,11 +1,15 @@
 #include "affine.h"
 
-namespace crypto {
+using namespace constants; // accepted_a
 
-    const std::unordered_set<int> Affine_cipher::accepted_a = {1,2,5,7,11,13,17,19,23};
+namespace crypto {
     
-    bool Affine_cipher::a_is_accepted(const int &input) {
-        return (accepted_a.end() != std::find(accepted_a.begin(), accepted_a.end(), input));
+    bool Affine_cipher::a_is_accepted(const int &input) const {
+        for(uint i = 0; i < sizeof(accepted_a); ++i)
+            if(accepted_a[i] == input)
+                return true;
+
+        return false;
     }
     
     void Affine_cipher::set_permutation(const int &a, const int &b) {

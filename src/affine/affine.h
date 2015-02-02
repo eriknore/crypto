@@ -2,6 +2,7 @@
 #define CIPHER_AFFINE_H
 
 #include "../subst/substitution.h"
+#include "../constants.h"
 #include <string>
 #include <unordered_set>
 #include <algorithm>
@@ -9,8 +10,7 @@
 namespace crypto {
 
     class Affine_cipher : public Subst_cipher {
-        static const std::unordered_set<int> accepted_a;
-        bool a_is_accepted(const int&);
+        bool a_is_accepted(const int&) const;
     protected:
         void set_permutation(const int&, const int&);
 

@@ -1,18 +1,10 @@
 #include "substitution.h"
 
-
-
-#include <iostream>
+using namespace constants; // alphabet-variables
 
 namespace crypto {
-
-    const char Subst_cipher::letters[] = {'a','b','c','d','e','f','g','h',
-                                          'i','j','k','l','m','n','o','p',
-                                          'q','r','s','t','u','v','w','x',
-                                          'y','z',' '};
     
     Subst_cipher::Subst_cipher() {
-        uint size_of_alphabet = get_size_of_alphabet();
         std::vector<int> list_of_numbers;
         // init list with indexes
         for(uint i = 0; i < size_of_alphabet; ++i) {
@@ -31,7 +23,6 @@ namespace crypto {
     Subst_cipher::Subst_cipher(const std::vector<int>& v) : permutation(v) { }
 
     std::string Subst_cipher::encrypt(const std::string& input) {
-        uint size_of_alphabet = get_size_of_alphabet();
         std::stringstream ss;
         for(const char& c : input){
             int letter_nr;
@@ -44,15 +35,14 @@ namespace crypto {
                 continue;
             letter_nr = (letter_nr % size_of_alphabet);
             // example: a->D == 0->3
-            // so for a: permutation[0] == 3 and letters[3] == d
-            ss << letters[permutation[letter_nr]];
+            // so for a: permutation[0] == 3 and alphabet[3] == d
+            ss << alphabet[permutation[letter_nr]];
         }
 
         return ss.str();
     }
 
     std::string Subst_cipher::decrypt(const std::string& input) {
-        uint size_of_alphabet = get_size_of_alphabet();
         std::stringstream ss;
         for(const char& c : input){
             int letter_nr;
@@ -71,7 +61,7 @@ namespace crypto {
                     break;
                 }
             }
-            ss << letters[letter_nr];
+            ss << alphabet[letter_nr];
         }
 
         return ss.str();
@@ -79,10 +69,9 @@ namespace crypto {
 
     std::string Subst_cipher::get_permutation() const {
         std::stringstream ss;
-        uint size_of_alphabet = get_size_of_alphabet();
         ss << "[ ";
         for(uint i = 0; i < size_of_alphabet; ++i) {
-            auto &letter = letters[permutation[i]];
+            auto &letter = alphabet[permutation[i]];
             if(letter == ' ')
                 ss << "  "; // double space
             else
@@ -100,15 +89,11 @@ namespace crypto {
             if(i % 2 == 1) // i.e. is whitespace
                 continue;
             if(s[i] == ' ')
-                permutation[i/2] = get_size_of_alphabet()-1;
+                permutation[i/2] = size_of_alphabet-1;
             else
                 permutation[i/2] = static_cast<int>(s[i] - 'a');
                 
         }
         return true;
-    }
-
-    int Subst_cipher::get_size_of_alphabet() const {
-        return sizeof(letters);
     }
 }

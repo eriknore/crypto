@@ -1,18 +1,20 @@
 flags = -std=c++11 -Wall
 compiler = clang++
 
-all: ciphers
+all: ciphers cryptanalysis
+	$(MAKE) -C ciphers
+	$(MAKE) -C cryptanalysis
 
-remake: clean
+remake:
+	$(MAKE) remake -C ciphers
+	$(MAKE) remake -C cryptanalysis
 
 ciphers:
 	$(MAKE) -C ciphers
 
-cryptanalysis: FORCE
-	cd cryptanalysis && make
-
-FORCE:
+cryptanalysis:
+	$(MAKE) -C cryptanalysis
 
 clean:
 	$(MAKE) clean -C ciphers
-	#cd cryptanalysis && make clean
+	$(MAKE) clean -C cryptanalysis
