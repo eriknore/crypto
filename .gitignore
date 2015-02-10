@@ -37,6 +37,7 @@ bruteforce
 ngrams
 ic_calc
 crack_viginere
+aes/aes
 
 # Crypto output files
 decrypted
